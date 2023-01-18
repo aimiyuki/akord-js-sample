@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "@akord/akord-js": "^1.6.2-rc2"
+    "@akord/akord-js": "^2.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20",

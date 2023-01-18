@@ -1,5 +1,6 @@
 import { Akord } from "@akord/akord-js";
 import { NodeJs } from "@akord/akord-js/lib/types/file";
+import { StorageType } from "@akord/akord-js/lib/types/node";
 
 const getEnv = (variable: string): string => {
   const value = process.env[variable];
@@ -37,12 +38,14 @@ const stacks = await akord.stack.list(vaultId);
 let stack = stacks.find((v) => v.name === filename);
 if (!stack) {
   console.log(`create stack ${filename}`);
-  const file = new NodeJs.File(filename);
+  const file = NodeJs.File.fromPath(filename);
   const { stackId } = await akord.stack.create(vaultId, file, filename);
   stack = await akord.stack.get(stackId);
 }
 console.log(stack);
 
-const url = `https://arweave.net/${stacks[0].files.at(-1).resourceTx}`;
+const version = stack.versions[stack.versions.length -1]
+const txId = version.getUri(StorageType.ARWEAVE)
+const url = `https://arweave.net/${txId}`;
 
 console.log(url);
